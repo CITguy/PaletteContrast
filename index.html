@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://2d2bf231b82dfe76fe36-fa12562cfe810d69bedcc36a0ac289ef.ssl.cf1.rackcdn.com/css/helix-ui.css" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body id="top">
+    <div id="app">
+      <select v-model="fgColor">
+        <option v-for="color in palette.colors" :value="color">{{color.name}} ({{color.value}})</option>
+      </select>
+      <table>
+        <thead>
+          <tr>
+            <th>Example</th>
+            <th>Background</th>
+            <th class="text-right">Contrast</th>
+            <th>AA</th>
+            <th>AAA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="bgColor in colorsWithContrast">
+            <td :style="{color: fgColor.value, backgroundColor: bgColor.value}">
+              Example 123
+            </td>
+            <td>{{bgColor.name}}</td>
+            <td class="text-right"><code>{{bgColor.contrast | toFixed}}</code></td>
+            <td>{{bgColor.aa ? 'PASS' : 'fail' }}</td>
+            <td>{{bgColor.aaa ? 'PASS' : 'fail' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <pre>{{ colorsWithContrast }}</pre>
+    </div>
+
+    <a id="bottom">
+      <script src="vendor/lodash.min.js"></script>
+      <script src="vendor/chroma.min.js"></script>
+      <script src="vendor/vue.min.js"></script>
+      <script src="app.js"></script>
+    </a>
+  </body>
+</html>
