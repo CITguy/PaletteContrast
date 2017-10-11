@@ -13,6 +13,9 @@ body {
 pre, code {
   font-family: 'Roboto Mono', monospace;
 }
+[v-cloak] {
+  display: none;
+}
 .swatch {
   border: 1px solid black;
   display: inline-block;
@@ -23,29 +26,3 @@ pre, code {
 .text-right {
   text-align: right;
 }
-
-/*
-.contrast-result {
-  display: inline-block;
-  text-align: center;
-  font-size: 2em;
-  font-weight: 500;
-  border: 1px solid black;
-  border-radius: 4rem;
-  padding: 0.25rem;
-  height: 3rem;
-  width: 5rem;
-}
-.contrast-result.pass-aaa {
-  color: black;
-  background-color: #6f6;
-}
-.contrast-result.pass-aa {
-  color: black;
-  background-color: #ff0;
-}
-.contrast-result.fail {
-  color: white;
-  background-color: red;
-}
-*/
