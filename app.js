@@ -1,16 +1,3 @@
-// Need: lodash for _.uniq
-Vue.component('palette-list', {
-    template: `<div>palette-list</div>`
-});
-
-Vue.component('color-list', {
-    template: `<div>color-list</div>`
-});
-
-Vue.component('contrast-data', {
-    template: `<div>contrast-data</div>`
-});
-
 Vue.component('contrast-result', {
     template: `
         <div :class="classes">
@@ -41,16 +28,20 @@ Vue.component('contrast-result', {
             }
         }
     },
-    filters: {
-        toFixed: function (value) {
-            try {
-                return value.toFixed(1);
-            } catch (e) {
-                return value;
-            }
-        }
+});
+
+Vue.filter('toFixed', function (numberValue) {
+    try {
+        return numberValue.toFixed(1);
+    } catch (e) {
+        return numberValue;
     }
 });
+
+Vue.filter('toJson', function (value) {
+    return JSON.stringify(value);
+});
+
 /*
  * <div id="app">
  *   <PaletteList/> <!-- 1 -->
@@ -144,16 +135,4 @@ new Vue({
             });
         }
     },
-    filters: {
-        toFixed: function (value) {
-            try {
-                return value.toFixed(1);
-            } catch (e) {
-                return value;
-            }
-        },
-        toJson: function (value) {
-            return JSON.stringify(value);
-        }
-    }
 });
