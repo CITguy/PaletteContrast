@@ -26,3 +26,19 @@ pre, code {
 .text-right {
   text-align: right;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  border-bottom: 1px solid transparent;
+}
+
+tr:hover {
+  border-bottom: 1px dotted black;
+}
+
+th, td {
+  padding: 0.25rem;
+}
