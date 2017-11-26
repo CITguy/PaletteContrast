@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="app.css" />
+    <meta charset="utf-8" />
+    <title>Palette Contrast Analyzer</title>
+
+    <link rel="stylesheet" href="loading.css" />
+    <link rel="stylesheet" href="vendor/segno-ui.css" />
   </head>
-  <body id="top">
-    <div id="app" v-cloak>
-      <p>
-        <label for="fgColor">Text Color:</label>
-        <select id="fgColor" v-model="fgColor">
-          <option v-for="color in palette.colors" :value="color">{{color.name}} ({{color.value}})</option>
-        </select>
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Example</th>
-            <th colspan="2">Background</th>
-            <th class="text-right">Contrast</th>
-            <th>AA</th>
-            <th>AAA</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="bgColor in colorsWithContrast">
-            <td :style="{color: fgColor.value, backgroundColor: bgColor.value}">
-              Example 123
-            </td>
-            <td>{{bgColor.name}}</td>
-            <td><code>{{bgColor.value}}</code></td>
-            <td class="text-right"><code>{{bgColor.contrast | toFixed}}</code></td>
-            <td>{{bgColor.aa ? 'PASS' : 'fail' }}</td>
-            <td>{{bgColor.aaa ? 'PASS' : 'fail' }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <body>
+    <div id="app" v-cloak></div>
+    <div id="loader">
+      <h1>Loading...</h1>
+      <div class="busy"></div>
     </div>
 
-    <a id="bottom">
-      <script src="vendor/lodash.min.js"></script>
-      <script src="vendor/chroma.min.js"></script>
-      <script src="vendor/vue.min.js"></script>
-      <script src="app.js"></script>
-    </a>
+    <!-- ES5 Adapter -->
+    <span id="ce-es5-adapter">
+      <script>
+        if (!window.customElements) {
+          var elAdapter = document.querySelector('#ce-es5-adapter');
+          elAdapter.parentElement.removeChild(elAdapter);
+        }
+      </script>
+      <!--
+        The adapter should only be loaded for browsers that
+        natively support custom elements.
+      -->
+      <script src="vendor/custom-elements-es5-adapter.js"></script>
+    </span>
+
+    <span id="bottom">
+      <script src="vendor/polyfill-loader.js"></script>
+    </span>
+
+    <script src="vendor/segno-ui.js"></script>
+    <script src="/dist/build.js"></script>
   </body>
 </html>
