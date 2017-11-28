@@ -19,8 +19,7 @@ export default {
         { name: 'Gray 750', value: '#6b6b6b' },
         { name: 'Gray 800', value: '#616161' },
         { name: 'Gray 900', value: '#424242' },
-        { name: 'Gray 900', value: '#424242' },
-        { name: 'Gray 950', value: '#eeeeee' },
+        { name: 'Gray 950', value: '#333333' },
         { name: 'Gray 975', value: '#212121' },
         { name: 'Gray 1000', value: '#000000' },
         // Cyans
