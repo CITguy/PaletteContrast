@@ -75,20 +75,23 @@ export default {
 </script>
 
 <style lang="less">
+  @import (reference) '../vars';
   .palette {
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: transparent;
+    border: 1px solid @gray-20;
     display: flex;
     min-height: 4rem;
     margin: 0.75rem;
 
     &:hover {
-      background-color: hsl(0, 0%, 95%);
+      background-color: @gray-05;
       cursor: pointer;
     }
 
     &.current {
-      border-color: blue;
+      background-color: white;
+      border-color: @gray-90;
+      box-shadow: 0 4px 6px -4px @gray-90;
       position: sticky;
       top: 0;
     }

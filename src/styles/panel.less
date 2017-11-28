@@ -1,6 +1,6 @@
-/* ========== PANELS ========== */
+@import (reference) '../vars';
 .panel {
-  border-left: 1px solid #ccc;
+  border-left: 1px solid @ui-border-color;
   display: flex;
   flex-direction: column;
 
@@ -9,7 +9,7 @@
   }
 
   &__body {
-    border-color: #ccc;
+    border-color: @ui-border-color;
     border-style: solid;
     border-width: 1px 0;
     flex-grow: 1;

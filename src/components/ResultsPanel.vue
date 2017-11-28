@@ -229,9 +229,10 @@
 </script>
 
 <style lang="less" scoped>
+  @import (reference) '../vars';
   .result {
     & + & {
-      border-top: 1px solid #ccc;
+      border-top: 1px solid @ui-border-color;
     }
 
     &__summary {
@@ -240,15 +241,15 @@
       background-color: white;
 
       &:hover {
-        background-color: hsl(0, 0%, 95%);
+        background-color: @state-info;
       }
 
       &:focus {
-        outline: none; // TODO: fix
+        outline: none; // FIXME
       }
 
       &[aria-expanded="true"] {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid @ui-border-color;
         position: sticky;
         top: 0;
 
@@ -259,10 +260,11 @@
     }
 
     &__details {
+      background-color: white;
       padding: 1rem 0.5rem 1rem 2rem;
 
       &[open] {
-        box-shadow: inset 1.25rem 0 hsl(0, 0%, 95%);
+        box-shadow: inset 1rem 0 @ui-border-color;
       }
     }
   }
@@ -278,14 +280,14 @@
   }
 
   .pass { 
-    color: #007bcc; 
+    color: @primary;
   }
 
   .caution { 
-    color: #f80; 
+    color: @state-warning-dark;
   }
 
   .fail { 
-    color: #f00; 
+    color: @state-danger-dark;
   }
 </style>

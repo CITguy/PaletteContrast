@@ -43,25 +43,35 @@
 </template>
 
 <style lang="less">
+  @import (reference) '../vars';
   .color {
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: transparent;
+    border: 1px solid @gray-20;
     display: flex;
     flex-grow: 1;
     height: 4rem;
-    margin: 0.75rem 1rem;
+    margin: 0.75rem;
 
     &:hover {
       cursor: pointer;
-      background-color: hsl(0, 0%, 95%);
+      background-color: @gray-05;
+    }
+
+    &__sample {
+      border-right: 1px solid @gray-20;
     }
 
     &.current {
-      background-color: aliceblue;
-      border-color: black;
+      background-color: white;
+      border-color: @gray-90;
       bottom: 0;
+      box-shadow: 0 4px 6px -4px @gray-90;
       position: sticky;
       top: 0;
+
+      .color__sample {
+        border-color: @gray-90;
+      }
     }
   }
 </style>
