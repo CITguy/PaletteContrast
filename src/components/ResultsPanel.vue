@@ -40,16 +40,16 @@
             </div>
             <div class="datum">
               <div class="datum__value">
-                <ds-icon v-if="result.wcag['AA-sm'] && result.wcag['AA-lg']" class="pass" type="check"></ds-icon>
-                <ds-icon v-else-if="result.wcag['AA-sm'] || result.wcag['AA-lg']" class="caution" type="exclamation-triangle-fill"></ds-icon>
+                <ds-icon v-if="result.wcag['AA-sm'] && result.wcag['AA-lg']" class="superb" type="star"></ds-icon>
+                <ds-icon v-else-if="result.wcag['AA-sm'] || result.wcag['AA-lg']" class="pass" type="check"></ds-icon>
                 <ds-icon v-else type="times-circle-fill" class="fail"></ds-icon>
               </div>
               <span class="datum__label">AA</span>
             </div>
             <div class="datum">
               <div class="datum__value">
-                <ds-icon v-if="result.wcag['AAA-sm'] && result.wcag['AAA-lg']" class="pass" type="check"></ds-icon>
-                <ds-icon v-else-if="result.wcag['AAA-sm'] || result.wcag['AAA-lg']" class="caution" type="exclamation-triangle-fill"></ds-icon>
+                <ds-icon v-if="result.wcag['AAA-sm'] && result.wcag['AAA-lg']" class="superb" type="star"></ds-icon>
+                <ds-icon v-else-if="result.wcag['AAA-sm'] || result.wcag['AAA-lg']" class="pass" type="check"></ds-icon>
                 <ds-icon v-else type="times-circle-fill" class="fail"></ds-icon>
               </div>
               <span class="datum__label">AAA</span>
@@ -118,8 +118,8 @@
               WCAG 2.0 <ds-icon type="external-link"></ds-icon>
             </a><br />
             <small>
-              Level AA: Normal text requires 4.5:1 contrast while large text requires 3:1.<br />
-              Level AAA: Normal text requires 7:1 contrast while large text requires 4.5:1.<br />
+              <i>Level AA:</i> Normal text requires 4.5:1 contrast while large text requires 3:1<br />
+              <i>Level AAA:</i> Normal text requires 7:1 contrast while large text requires 4.5:1
             </small>
           </p>
           <!--
@@ -228,7 +228,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import (reference) '../vars';
   .result {
     & + & {
@@ -279,15 +279,20 @@
     }
   }
 
-  .pass { 
-    color: @primary;
+  .superb {
+    color: gold;
+
+    svg path {
+      stroke: goldenrod;
+      stroke-width: 1px;
+    }
   }
 
-  .caution { 
-    color: @state-warning-dark;
+  .pass { 
+    color: royalblue;
   }
 
   .fail { 
-    color: @state-danger-dark;
+    color: crimson; //@state-danger-dark;
   }
 </style>
