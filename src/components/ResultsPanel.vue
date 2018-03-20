@@ -93,7 +93,7 @@
                   <ds-icon v-else type="times-circle-fill" class="fail"></ds-icon>
                 </td>
                 <td class="sample" :style="sampleStyle(result)">
-                  The five boxing wizards jump quickly.
+                  <code>{{result.fgColor.value}} on {{result.bgColor.value}}</code>
                 </td>
               </tr>
               <tr>
@@ -107,7 +107,7 @@
                   <ds-icon v-else type="times-circle-fill" class="fail"></ds-icon>
                 </td>
                 <td class="sample sample--lg" :style="sampleStyle(result)">
-                  The five boxing wizards jump quickly.
+                  <code>{{result.fgColor.value}} on {{result.bgColor.value}}</code>
                 </td>
               </tr>
             </tbody>
