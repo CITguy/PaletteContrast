@@ -65,91 +65,90 @@
 </template>
 
 <script>
-  import Palettes from './data/palettes';
-  import PalettePanel from './components/PalettePanel.vue';
-  import ColorsPanel from './components/ColorsPanel.vue';
-  import ResultsPanel from './components/ResultsPanel.vue';
+import Palettes from './data/palettes'
+import PalettePanel from './components/PalettePanel.vue'
+import ColorsPanel from './components/ColorsPanel.vue'
+import ResultsPanel from './components/ResultsPanel.vue'
+import chroma from 'chroma-js'
 
-  export default {
-    name: 'app',
-    data () {
-      return {
-        palettes: Palettes,
-        currentPalette: {}, // placeholder for selected palette
-        fgColor: {}, // placeholder for selected foreground color
-      };
+export default {
+  name: 'app',
+  data () {
+    return {
+      palettes: Palettes,
+      currentPalette: {}, // placeholder for selected palette
+      fgColor: {} // placeholder for selected foreground color
+    }
+  },
+  components: {
+    'palette-panel': PalettePanel,
+    'colors-panel': ColorsPanel,
+    'results-panel': ResultsPanel
+  },
+  created: function () {
+    this.currentPalette = this.palettes[0]
+    this.fgColor = this.currentPalette.colors[0]
+  },
+  computed: {
+    filteredResults () {
+      return this.currentPalette.colors.filter(color => {
+        return color.value !== this.fgColor.value
+      })
     },
-    components: {
-      'palette-panel': PalettePanel,
-      'colors-panel': ColorsPanel,
-      'results-panel': ResultsPanel,
-    },
-    created: function () {
-      this.currentPalette = this.palettes[0];
-      this.fgColor = this.currentPalette.colors[0];
-    },
-    computed: {
-      filteredResults () {
-        return this.currentPalette.colors.filter( color => {
-          return color.value !== this.fgColor.value;
-        });
-      },
-      results () {
-        if (!this.fgColor) {
-          return [];
-        } else {
-          return this.filteredResults.map( (color, idx) => {
-            let _contrast = chroma.contrast(this.fgColor.value, color.value);
-            _contrast = Number(_contrast.toFixed(1));
+    results () {
+      if (!this.fgColor) return []
 
-            let _reUnsafe = /\W+/gi;
-            let _id = [
-              'result',
-              this.fgColor.name.replace(_reUnsafe, ''),
-              color.name.replace(_reUnsafe, ''),
-            ].join('-');
+      return this.filteredResults.map((color, idx) => {
+        let _contrast = chroma.contrast(this.fgColor.value, color.value)
+        _contrast = Number(_contrast.toFixed(1))
 
-            return {
-              id: _id,
-              fgColor: this.fgColor,
-              bgColor: color,
-              contrast: _contrast,
+        let _reUnsafe = /\W+/gi
+        let _id = [
+          'result',
+          this.fgColor.name.replace(_reUnsafe, ''),
+          color.name.replace(_reUnsafe, '')
+        ].join('-')
 
-              wcag: {
-                'AA-sm': _contrast >= 4.5,
-                'AA-lg': _contrast >= 3,
-                'AAA-sm': _contrast >= 7,
-                'AAA-lg': _contrast >= 4.5,
-              }
-            };
-          });
-        }
-      },
-      sortedResults () {
-        return this.results.sort( (a,b) => {
-          let result = b.contrast - a.contrast;
-          if (result === 0) {
-            // sort by name (desc) if contrast is same
-            if (b.name < b.name) {
-              result = -1;
-            }
-            if (b.name > a.name) {
-              result = 1;
-            }
-            result = 0;
+        return {
+          id: _id,
+          fgColor: this.fgColor,
+          bgColor: color,
+          contrast: _contrast,
+          wcag: {
+            'AA-sm': _contrast >= 4.5,
+            'AA-lg': _contrast >= 3,
+            'AAA-sm': _contrast >= 7,
+            'AAA-lg': _contrast >= 4.5
           }
-          return result;
-        });
-      },
+        }
+      })
     },
-    methods: {
-      onPaletteChange (palette) {
-        this.currentPalette = palette;
-        this.fgColor = palette.colors[0];
-      },
-      onColorChange (color) {
-        this.fgColor = color;
-      }
+    sortedResults () {
+      let _results = [].concat(this.results)
+      return _results.sort((a, b) => {
+        let result = b.contrast - a.contrast
+        if (result === 0) {
+          // sort by name (desc) if contrast is same
+          if (b.name < a.name) {
+            result = -1
+          }
+          if (b.name > a.name) {
+            result = 1
+          }
+          result = 0
+        }
+        return result
+      })
+    }
+  },
+  methods: {
+    onPaletteChange (palette) {
+      this.currentPalette = palette
+      this.fgColor = palette.colors[0]
+    },
+    onColorChange (color) {
+      this.fgColor = color
     }
   }
+}
 </script>

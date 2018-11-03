@@ -1,6 +1,6 @@
 <template>
   <div id="results" class="panel">
-    <div class="panel__head">
+    <header>
       <div class="padded">
         <h2 class="dsSectionHeader">View Analysis</h2>
         <p>
@@ -12,9 +12,9 @@
       </div>
       <form class="filter">
         <div class="searchbox">
-          <input 
-            placeholder="Search contrast results..." 
-            ref="txtFilter" 
+          <input
+            placeholder="Search contrast results..."
+            ref="txtFilter"
             type="text"
             v-model="filter" />
           <button v-if="filter" @click.prevent="clearFilter()">
@@ -22,11 +22,11 @@
           </button>
         </div>
       </form>
-    </div>
+    </header>
     <div class="panel__body">
-      <div 
-        :key="result.id" 
-        class="result" 
+      <div
+        :key="result.id"
+        class="result"
         v-for="result in sortedResults">
 
         <ds-disclosure class="result__summary" :aria-controls="result.id">
@@ -132,100 +132,93 @@
 </template>
 
 <script>
-  import chroma from '../assets/chroma.min.js';
-  import ColorSample from './ColorSample.vue';
+import chroma from 'chroma-js'
+import ColorSample from './ColorSample.vue'
 
-  export default {
-    name: 'results-panel',
-    components: {
-      'color-sample': ColorSample,
-    },
-    props: {
-      palette: Object,
-      currentColor: Object,
-    },
-    data () {
+export default {
+  name: 'results-panel',
+  components: {
+    'color-sample': ColorSample
+  },
+  props: {
+    palette: Object,
+    currentColor: Object
+  },
+  data () {
+    return {
+      filter: ''
+    }
+  },
+  methods: {
+    sampleStyle (result) {
       return {
-        filter: '',
-      };
-    },
-    methods: {
-      sampleStyle (result) {
-        return {
-          color: result.fgColor.value,
-          backgroundColor: result.bgColor.value,
-        };
-      },
-      clearFilter () {
-        this.filter = '';
-        this.$refs.txtFilter.focus();
+        color: result.fgColor.value,
+        backgroundColor: result.bgColor.value
       }
     },
-    computed: {
-      excludingFgColor () {
-        return this.palette.colors.filter( color => {
-          return color.value !== this.currentColor.value;
-        });
-      },
-      filteredColors () {
-        let filteredResults = this.excludingFgColor;
-        if (this.filter) {
-          let reFilter = new RegExp(this.filter, 'gi');
-          filteredResults = this.excludingFgColor.filter( color => {
-            return color.name.match(reFilter);
-          });
-        }
-        return filteredResults;
-      },
-      results () {
-        if (!this.currentColor) {
-          return [];
-        } else {
-          return this.filteredColors.map( (bgColor) => {
-            let fgColor = this.currentColor;
-            let _contrast = chroma.contrast(fgColor.value, bgColor.value);
-            _contrast = Number(_contrast.toFixed(1));
+    clearFilter () {
+      this.filter = ''
+      this.$refs.txtFilter.focus()
+    }
+  },
+  computed: {
+    excludingFgColor () {
+      return this.palette.colors.filter(color => {
+        return color.value !== this.currentColor.value
+      })
+    },
+    filteredColors () {
+      let filteredResults = this.excludingFgColor
+      if (this.filter) {
+        let reFilter = new RegExp(this.filter, 'gi')
+        filteredResults = this.excludingFgColor.filter(color => {
+          return color.name.match(reFilter)
+        })
+      }
+      return filteredResults
+    },
+    results () {
+      if (!this.currentColor) return []
 
-            let _reUnsafe = /\W+/gi;
-            let _id = [
-              fgColor.name.replace(_reUnsafe, ''),
-              bgColor.name.replace(_reUnsafe, ''),
-            ].join('-');
+      return this.filteredColors.map(bgColor => {
+        let fgColor = this.currentColor
+        let _contrast = chroma.contrast(fgColor.value, bgColor.value)
+        _contrast = Number(_contrast.toFixed(1))
 
-            return {
-              id: _id,
-              fgColor: fgColor,
-              bgColor: bgColor,
-              contrast: _contrast,
+        let _reUnsafe = /\W+/gi
+        let _id = [
+          fgColor.name.replace(_reUnsafe, ''),
+          bgColor.name.replace(_reUnsafe, '')
+        ].join('-')
 
-              wcag: {
-                'AA-sm': _contrast >= 4.5,
-                'AA-lg': _contrast >= 3,
-                'AAA-sm': _contrast >= 7,
-                'AAA-lg': _contrast >= 4.5,
-              }
-            };
-          });
-        }
-      },
-      sortedResults () {
-        return this.results.sort( (a,b) => {
-          let result = b.contrast - a.contrast;
-          if (result === 0) {
-            // sort by name (desc) if contrast is same
-            if (b.name < b.name) {
-              result = -1;
-            }
-            if (b.name > a.name) {
-              result = 1;
-            }
-            result = 0;
+        return {
+          id: _id,
+          fgColor: fgColor,
+          bgColor: bgColor,
+          contrast: _contrast,
+          wcag: {
+            'AA-sm': _contrast >= 4.5,
+            'AA-lg': _contrast >= 3,
+            'AAA-sm': _contrast >= 7,
+            'AAA-lg': _contrast >= 4.5
           }
-          return result;
-        });
-      },
+        }
+      })
+    },
+    sortedResults () {
+      return [].concat(this.results).sort((a, b) => {
+        let result = b.contrast - a.contrast
+        if (result === 0) {
+          // sort by name (desc) if contrast is same
+          if (b.name < a.name) result = -1
+          if (b.name > a.name) result = 1
+          result = 0
+        }
+        return result
+      })
     }
   }
+}
 </script>
 
 <style lang="less">
@@ -288,11 +281,11 @@
     }
   }
 
-  .pass { 
+  .pass {
     color: royalblue;
   }
 
-  .fail { 
+  .fail {
     color: crimson; //@state-danger-dark;
   }
 </style>

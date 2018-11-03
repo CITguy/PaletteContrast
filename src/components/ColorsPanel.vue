@@ -1,6 +1,6 @@
 <template>
   <div id="colors" class="panel">
-    <div class="panel__head">
+    <header>
       <div class="padded">
         <h2 class="dsSectionHeader">Text Color</h2>
         <p>
@@ -10,9 +10,9 @@
       </div>
       <form class="filter">
         <div class="searchbox">
-          <input 
-            placeholder="Search text colors..." 
-            ref="txtFilter" 
+          <input
+            placeholder="Search text colors..."
+            ref="txtFilter"
             type="text"
             v-model="filter" />
           <button v-if="filter" @click.prevent="clearFilter()">
@@ -20,12 +20,13 @@
           </button>
         </div>
       </form>
-    </div>
+    </header>
     <div class="panel__body">
       <div v-if="filteredColors.length > 0">
         <div
           v-for="color in filteredColors"
           :class="['color', { current: isCurrent(color) }]"
+          :key="color.name"
           @click="select(color)">
 
           <color-sample :bg="color.value"></color-sample>
@@ -77,61 +78,61 @@
 </style>
 
 <script>
-import ColorSample from './ColorSample.vue';
+import ColorSample from './ColorSample.vue'
 
 export default {
   name: 'colors-panel',
   components: {
-    'color-sample': ColorSample,
+    'color-sample': ColorSample
   },
   props: {
     palette: Object,
     currentColor: {
       type: Object,
       default () {
-        return this.palette.colors[0];
+        return this.palette.colors[0]
       }
     }
   },
   data () {
     return {
       value: {},
-      filter: '',
-    };
+      filter: ''
+    }
   },
   created () {
-    this.value = this.currentColor;
-    this.filter = '';
+    this.value = this.currentColor
+    this.filter = ''
   },
   updated () {
-    this.value = this.currentColor;
+    this.value = this.currentColor
   },
   computed: {
     filteredColors () {
-      let filtered = this.palette.colors;
+      let filtered = this.palette.colors
 
       if (this.filter) {
-        const reFilter = new RegExp(this.filter, 'gi');
-        filtered = this.palette.colors.filter( (color) => {
-          return color.name.match(reFilter);
-        });
+        const reFilter = new RegExp(this.filter, 'gi')
+        filtered = this.palette.colors.filter(color => {
+          return color.name.match(reFilter)
+        })
       }
 
-      return filtered;
-    },
+      return filtered
+    }
   },
   methods: {
     isCurrent (color) {
-      return this.value === color;
+      return this.value === color
     },
     select (color) {
-      this.value = color;
-      this.$emit('change', this.value);
+      this.value = color
+      this.$emit('change', this.value)
     },
     clearFilter () {
-      this.filter = '';
-      this.$refs.txtFilter.focus();
+      this.filter = ''
+      this.$refs.txtFilter.focus()
     }
   }
-};
+}
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div id="palettes" class="panel">
-    <header class="panel__head">
+    <header>
       <div class="padded">
         <h2 class="dsSectionHeader">Choose Palette</h2>
         <p>
@@ -11,8 +11,10 @@
     <div class="panel__body" v-if="palettes.length > 0">
       <div
         v-for="palette in palettes"
+        :key="palette.name"
         :class="['palette', { current: isCurrent(palette) }]"
-        @click="select(palette)">
+        @click="select(palette)"
+      >
 
         <div class="datum datum--description">
           <div class="datum__value">{{palette.name}}</div>
@@ -41,34 +43,36 @@ export default {
   props: {
     palettes: {
       type: Array,
-      default: [],
+      default: function () {
+        return []
+      }
     },
     currentPalette: {
       type: Object,
       default: function () {
         if (this.palettes.length > 0) {
-          return this.palettes[0];
+          return this.palettes[0]
         } else {
-          return {};
+          return {}
         }
       }
     }
   },
   data () {
     return {
-      value: {},
-    };
+      value: {}
+    }
   },
   created: function () {
-    this.value = this.currentPalette;
+    this.value = this.currentPalette
   },
   methods: {
     isCurrent (palette) {
-      return palette === this.value;
+      return palette === this.value
     },
     select (palette) {
-      this.value = palette;
-      this.$emit('change', this.value);
+      this.value = palette
+      this.$emit('change', this.value)
     }
   }
 }
