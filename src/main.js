@@ -5,19 +5,15 @@ Vue.config.productionTip = false
 
 // TODO: Modularize vue filters
 Vue.filter('toFixed', numberValue => {
-    try {
-        return numberValue.toFixed(1)
-    } catch (e) {
-        return numberValue
-    }
-});
-
-Vue.filter('toJSON', value => {
-    return JSON.stringify(value)
+  try {
+    return numberValue.toFixed(1)
+  } catch (e) {
+    return numberValue
+  }
 })
 
-let app = new Vue({
-    render: h => h(App)
-})
+Vue.filter('toJSON', value => JSON.stringify(value))
+
+let app = new Vue({ render: h => h(App) })
 
 app.$mount('#app')
